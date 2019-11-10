@@ -3,10 +3,16 @@ package me.anmolgoyal.crawling.data;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CrawlResponse {
 	
+	@JsonProperty("total_links")
 	private int totalLinks;
+	
+	@JsonProperty("total_images")
 	private int totalImages;
+	
 	private List<Page> details;
 	
 	public CrawlResponse() {

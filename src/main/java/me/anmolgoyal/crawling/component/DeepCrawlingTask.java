@@ -20,9 +20,15 @@ import org.springframework.stereotype.Component;
 import me.anmolgoyal.crawling.data.Page;
 import me.anmolgoyal.crawling.exception.SystemException;
 
+/**
+ * It take the request from CrawlingTask. 
+ * it hit the given url and find the total no of images, all links on that page , title for given url.
+ * than is pass on the information back to CrawlingTask
+ * @author anmgoyal
+ *
+ */
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-
 public class DeepCrawlingTask implements Callable<DeepCrawlingResponse> {
 
 	final static Logger log = LogManager.getLogger(DeepCrawlingTask.class);
@@ -31,7 +37,6 @@ public class DeepCrawlingTask implements Callable<DeepCrawlingResponse> {
 	private int crawlTimeOut;
 
 	@Value("#{new Boolean('${isFollowRedirectsAllowed}')}")
-	//@Value("isFollowRedirectsAllowed")
 	private boolean isFollowRedirectsAllowed;
 
 	private String url;

@@ -21,6 +21,13 @@ import me.anmolgoyal.crawling.data.CrawlRequest;
 import me.anmolgoyal.crawling.data.CrawlResponse;
 import me.anmolgoyal.crawling.enums.CrawlStatus;
 
+/**
+ * it takes the request from requestQueue and make a DeepCrawlingTask task.
+ * For each link it make DeepCrawlingTask and submit this to deepCrawlingExecutorPool for parallel execution
+ * 
+ * @author anmgoyal
+ *
+ */
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CrawlingTask implements Runnable {
@@ -58,9 +65,6 @@ public class CrawlingTask implements Runnable {
 	public void run() {
 		boolean requestProcessed = false;
 
-		System.out.println("working start " + statusMap);
-		System.out.println("deeprequest " + crawlRequest);
-
 		try {
 			statusMap.replace(crawlRequest.getToken(), CrawlStatus.IN_PROCESS);
 			processDeepCrawling();
@@ -68,15 +72,11 @@ public class CrawlingTask implements Runnable {
 		} catch (Exception e) {
 			statusMap.replace(crawlRequest.getToken(), CrawlStatus.FAILED);
 			log.error(String.format("Error getting crawling request for url %s", crawlRequest.getUrl()), e);
-			// throw new SystemException(e.getMessage(), String.format("Error getting
-			// crawling request for url %s", crawlRequest.getUrl()));
 		}
 
 		if (requestProcessed) {
 			statusMap.replace(crawlRequest.getToken(), CrawlStatus.PROCESSED);
 		}
-
-		System.out.println("completed " + crawlResponse);
 
 	}
 

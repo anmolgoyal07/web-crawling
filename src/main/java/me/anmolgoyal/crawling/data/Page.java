@@ -2,14 +2,16 @@ package me.anmolgoyal.crawling.data;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Page {
-
+	@JsonProperty("page_title")
 	private String pageTitle;
 	
+	@JsonProperty("page_link")
 	private String pageLink;
 	
-	@JsonAlias("image_count")
+	@JsonProperty("image_count")
 	private int imageCount;
 	
 

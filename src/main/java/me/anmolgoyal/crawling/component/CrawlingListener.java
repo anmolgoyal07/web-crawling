@@ -5,15 +5,25 @@ import java.util.concurrent.Executor;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 
 import me.anmolgoyal.crawling.data.CrawlRequest;
 
+/**
+ * It listening to requestQueue. For every new request it create crawling task.
+ * it submit the crawling request to executorPool
+ * @author anmgoyal
+ *
+ */
 @Component
 public class CrawlingListener implements Runnable {
 
+	final static Logger log = LogManager.getLogger(CrawlingListener.class);
+	
 	@Autowired
 	private BlockingQueue<CrawlRequest> requestQueue;
 	
@@ -39,9 +49,8 @@ public class CrawlingListener implements Runnable {
 				executorPool.execute(deepCrawlingTask);
 				
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				log.error("Error while taking the request from requestQueue", e);
 			}
-			
 		}
 		
 		
